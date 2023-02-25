@@ -1,0 +1,468 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Admin theme. Start -->
+<!--    <type name="Magento\Theme\Model\View\Design">-->
+<!--        <arguments>-->
+<!--            <argument name="themes" xsi:type="array">-->
+<!--                <item name="adminhtml" xsi:type="string">Dulv/separateadminuser</item>-->
+<!--            </argument>-->
+<!--        </arguments>-->
+<!--    </type>-->
+    <!-- Admin theme. End -->
+
+    <!-- MAGENTO FRAMEWORK -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <plugin name="limit_store_for_grid_all" type="Dulv\SeparateAdminUser\Plugin\All\LimitStoreSearchResult" sortOrder="1" />
+    </type>
+    <type name="Magento\Config\Model\Config\Source\Website\OptionHash">
+        <plugin name="limit_website_option" type="Dulv\SeparateAdminUser\Plugin\All\LimitWebsiteOptions" sortOrder="1"/>
+    </type>
+    <type name="Magento\Store\Model\System\Store">
+        <plugin name="limit_website_for_form" type="Dulv\SeparateAdminUser\Plugin\All\LimitWebsiteOptionsForm" sortOrder="1" />
+    </type>
+    <type name="Magento\Backend\Block\Widget\Grid\Column\Filter\Store">
+        <plugin name="limit_filter_for_column_type_store" type="Dulv\SeparateAdminUser\Plugin\Grid\LimitStoreFilter" sortOrder="1" />
+    </type>
+    <type name="Magento\Backend\Model\Url">
+        <plugin name="dashboard_redirect_to_correct_store" type="Dulv\SeparateAdminUser\Plugin\Backend\Dashboard\Url" sortOrder="1" />
+    </type>
+    <type name="Magento\Backend\Controller\Adminhtml\Dashboard\Index">
+        <plugin name="dashboard_redirect_to_correct_store_index" type="Dulv\SeparateAdminUser\Plugin\Backend\Dashboard\Index" sortOrder="1" />
+    </type>
+    <type name="Magento\Config\Controller\Adminhtml\System\Config\Edit">
+        <plugin name="config_limit_scope_for_user" type="Dulv\SeparateAdminUser\Plugin\Config\Edit" sortOrder="1"/>
+    </type>
+    <!-- Overide  module management admin user -->
+    <type name="Magento\User\Block\User\Edit\Tab\Main">
+        <plugin name="add_website_to_createuser_Form" type="Dulv\SeparateAdminUser\Block\User\Edit\Tab\Website" sortOrder="1"/>
+    </type>
+    <type name="Magento\User\Controller\Adminhtml\User\Save">
+        <plugin name="validate_website_group_store_beforesave" type="Dulv\SeparateAdminUser\Plugin\User\ValidateSave" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\User\Controller\Adminhtml\User\NewAction">
+        <plugin name="check_if_has_permision_to_create_user" type="Dulv\SeparateAdminUser\Plugin\User\ValidateAdd" sortOrder="1" />
+    </type>
+
+    <type name="Magento\User\Controller\Adminhtml\User\Edit">
+        <plugin name="check_if_has_permision_to_edit_user" type="Dulv\SeparateAdminUser\Plugin\User\ValidateEdit" sortOrder="1" />
+    </type>
+
+    <type name="Magento\User\Controller\Adminhtml\User\Delete">
+        <plugin name="check_if_has_permision_to_delete_user" type="Dulv\SeparateAdminUser\Plugin\User\ValidateDelete" sortOrder="1" />
+    </type>
+    <type name="Magento\User\Controller\Adminhtml\User\Index">
+        <plugin name="check_if_has_permision_to_index_user" type="Dulv\SeparateAdminUser\Plugin\User\ValidateIndex" sortOrder="1" />
+    </type>
+    <type name="Magento\User\Model\ResourceModel\User\Collection">
+        <plugin name="force_filter_user_by_current_user" type="Dulv\SeparateAdminUser\Plugin\User\ForceFilterUser"/>
+    </type>
+    <!-- Overide CMS module -->
+    <!-- Override CMS Page -->
+    <type name="Magento\Cms\Model\ResourceModel\Page\Collection">
+        <plugin name="check_if_store_is_in_list" type="Dulv\SeparateAdminUser\Plugin\Cms\Page\ValidateIndex"/>
+    </type>
+    <type name="Magento\Cms\Controller\Adminhtml\Page\Edit">
+        <plugin name="cms_page_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Cms\Page\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="Magento\Cms\Controller\Adminhtml\Page\Delete">
+        <plugin name="cms_page_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Cms\Page\ValidateDelete" sortOrder="1"/>
+    </type>
+    <!-- End CMS Page -->
+    <type name="Magento\Cms\Ui\Component\Listing\Column\Cms\Options">
+        <plugin name="limit_store_options_filter" type="Dulv\SeparateAdminuser\Plugin\Cms\PageStoreOptions"/>
+    </type>
+    <!-- Start CMS BLock-->
+    <type name="Magento\Cms\Model\ResourceModel\Block\Collection">
+        <plugin name="check_if_store_is_in_list_block" type="Dulv\SeparateAdminUser\Plugin\Cms\Block\ValidateIndex"/>
+    </type>
+    <type name="Magento\Cms\Controller\Adminhtml\Block\Edit">
+        <plugin name="cms_block_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Cms\Block\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="Magento\Cms\Controller\Adminhtml\Block\Delete">
+        <plugin name="cms_block_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Cms\Block\ValidateDelete" sortOrder="1"/>
+    </type>
+    <!-- End CMS Block-->
+    <!-- Start Overriding Catalog/Category -->
+    <type name="Magento\Catalog\Controller\Adminhtml\Category\Index">
+        <plugin name="add_store_filter_to_category_index" type="Dulv\SeparateAdminUser\Plugin\Catalog\Category\ValidateIndex" sortOrder="1"/>
+    </type>
+    <type name="Magento\Catalog\Controller\Adminhtml\Category\Edit">
+        <plugin name="add_store_filter_to_category_edit" type="Dulv\SeparateAdminUser\Plugin\Catalog\Category\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="Magento\Catalog\Controller\Adminhtml\Category\Delete">
+        <plugin name="add_store_filter_to_category_delete" type="Dulv\SeparateAdminUser\Plugin\Catalog\Category\ValidateDelete" sortOrder="1"/>
+    </type>
+    <!--  PRODUCT  -->
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Edit">
+        <plugin name="add_store_filter_to_product_edit" type="Dulv\SeparateAdminUser\Plugin\Catalog\Product\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Save">
+        <plugin name="add_store_filter_to_product_save" type="Dulv\SeparateAdminUser\Plugin\Catalog\Product\ValidateSave" sortOrder="1"/>
+    </type>
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Websites">
+        <plugin name="remove_websites_product_edit" type="Dulv\SeparateAdminUser\Plugin\Catalog\Product\ProductEditRemoveTabWebsite" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider">
+        <plugin name="limit_website_for_product_grid" type="Dulv\SeparateAdminUser\Plugin\Catalog\Product\LimitWebsite" sortOrder="1" />
+    </type>
+    <!-- End Catalog/Category -->
+
+    <!-- Backend Switcher -->
+    <type name="Magento\Backend\Block\Store\Switcher">
+        <plugin name="limit_website_for_switcher" type="Dulv\SeparateAdminUser\Plugin\Backend\Switcher\LimitWebsites" sortOrder="1"/>
+    </type>
+    <type name="Magento\Store\Model\Website">
+        <plugin name="limit_group_for_switcher" type="Dulv\SeparateAdminUser\Plugin\Backend\Switcher\LimitGroups" sortOrder="1"/>
+    </type>
+    <type name="Magento\Store\Model\Group">
+        <plugin name="limit_store_for_switcher" type="Dulv\SeparateAdminUser\Plugin\Backend\Switcher\LimitStores" sortOrder="1"/>
+    </type>
+    <type name="Magento\Store\Ui\Component\Listing\Column\Store\Options">
+        <plugin name="limit_store_for_options" type="Dulv\SeparateAdminUser\Plugin\Store\LimitOptions" sortOrder="1" />
+    </type>
+
+    <!-- Backend end Switcher -->
+
+    <!-- MAGENTO SALES -->
+
+    <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+        <plugin name="limit_store_for_order_index" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\LimitStore" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Collection">
+        <plugin name="limit_store_for_order_collection" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\LimitStoreCollection" sortOrder="1"/>
+    </type>
+        <!-- MAGENTO ORDER-->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\View">
+        <plugin name="validate_store_id_in_order_view" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateView" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Hold">
+        <plugin name="validate_store_id_in_order_hold" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateHold" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\UnHold">
+        <plugin name="validate_store_id_in_order_unhold" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateUnHold" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Cancel">
+        <plugin name="validate_store_id_in_order_cancel" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateCancel" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Email">
+        <plugin name="validate_store_id_in_order_email" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateEmail" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\AddComment">
+        <plugin name="validate_store_id_in_order_addcomment" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateAddComment" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Address">
+        <plugin name="validate_store_id_in_order_address" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateAddress" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\AddressSave">
+        <plugin name="validate_store_id_in_order_addresssave" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateAddressSave" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\CommentHistory">
+        <plugin name="validate_store_id_in_order_commenthistory" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateCommentHistory" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Create">
+        <plugin name="validate_store_id_in_order_create" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateCreate" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemos">
+        <plugin name="validate_store_id_in_order_creditmemos" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateCreditmemos" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoices">
+        <plugin name="validate_store_id_in_order_invoices" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateInvoices" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\ReviewPayment">
+        <plugin name="validate_store_id_in_order_reviewpayment" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateReviewPayment" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Transactions">
+        <plugin name="validate_store_id_in_order_transactions" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateTransactions" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\VoidPayment">
+        <plugin name="validate_store_id_in_order_transactions" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateVoidPayment" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO ORDER -->
+
+    <!-- MAGENTO ORDER CREDITMEMO -->
+    <type name="Magento\Sales\Model\ResourceModel\Order\Creditmemo\Collection">
+        <plugin name="limit_store_in_creditmemo_collection" type="Dulv\SeparateAdminUser\Plugin\Sales\Creditmemo\LimitStoreCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\NewAction">
+        <plugin name="validate_store_id_in_order_creditmemo_new" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidateNew" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\AddComment">
+        <plugin name="validate_store_id_in_order_creditmemo_addcomment" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidateAddComment" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\View">
+        <plugin name="validate_store_id_in_order_creditmemo_view" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidateView" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\Save">
+        <plugin name="validate_store_id_in_order_creditmemo_save" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidateSave" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\VoidAction">
+        <plugin name="validate_store_id_in_order_creditmemo_voidaction" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidateVoidAction" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\UpdateQty">
+        <plugin name="validate_store_id_in_order_creditmemo_updateqty" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidateUpdateQty" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\PrintAction">
+        <plugin name="validate_store_id_in_order_creditmemo_printaction" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Creditmemo\ValidatePrint" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO ORDER CREDITMEMO -->
+
+    <!-- MAGENTO ORDER INVOICE -->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\AddComment">
+        <plugin name="validate_store_id_in_order_invoice_addcomment" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateAddComment" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\Cancel">
+        <plugin name="validate_store_id_in_order_invoice_cancel" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateCancel" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\Capture">
+        <plugin name="validate_store_id_in_order_invoice_capture" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateCapture" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\Email">
+        <plugin name="validate_store_id_in_order_invoice_email" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateEmail" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\NewAction">
+        <plugin name="validate_store_id_in_order_invoice_new" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateInvoiceNew" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\PrintAction">
+        <plugin name="validate_store_id_in_order_invoice_printaction" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidatePrintAction" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\Save">
+        <plugin name="validate_store_id_in_order_invoice_save" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateSave" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\UpdateQty">
+        <plugin name="validate_store_id_in_order_invoice_updateqty" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateUpdateQty" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\View">
+        <plugin name="validate_store_id_in_order_invoice_view" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateView" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Invoice\VoidAction">
+        <plugin name="validate_store_id_in_order_invoice_voidaction" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Invoice\ValidateVoid" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO ORDER INVOICE -->
+    <!-- MAGENTO ORDER SHIPMENT -->
+    <type name="Magento\Shipping\Controller\Adminhtml\Order\Shipment\NewAction">
+        <plugin name="validate_store_id_in_order_shipment_new" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateShipmentNew" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Shipments">
+        <plugin name="validate_store_id_in_order_shipments" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\ValidateShipments" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO ORDER SHIPMENT -->
+
+    <!-- MAGENTO ORDER CREATE -->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Reorder">
+        <plugin name="validate_store_id_in_order_create_reorder" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Create\ValidateReorder" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO CREATE -->
+    <!-- MAGENTO ORDER EDIT -->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Edit\Start">
+        <plugin name="validate_store_id_in_order_edit_start" type="Dulv\SeparateAdminUser\Plugin\Sales\Order\Edit\ValidateStart" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO ORDER EDIT -->
+
+    <!-- MAGENTO SALES SHIPMENT -->
+    <type name="Magento\Sales\Controller\Adminhtml\Shipment\PrintAction">
+        <plugin name="validate_store_id_in_shipment_printaction" type="Dulv\SeparateAdminUser\Plugin\Sales\Shipment\ValidatePrintAction" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Shipment\View">
+        <plugin name="validate_store_id_in_shipment_view" type="Dulv\SeparateAdminUser\Plugin\Sales\Shipment\ValidateView" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Grid\Collection">
+        <plugin name="limit_store_for_shipment_grid" type="Dulv\SeparateAdminUser\Plugin\Sales\Shipment\LimitStore" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Collection">
+        <plugin name="limit_store_for_shipment_collection" type="Dulv\SeparateAdminUser\Plugin\Sales\Shipment\LimitStoreCollection" sortOrder="1" />
+    </type>
+    <!-- END MAGENTO SALES SHIPMENT -->
+
+    <!-- SALES INVOICE -->
+<!--    <type name="Magento\Sales\Model\ResourceModel\Order\Invoice\Grid\Collection"> -->
+<!--        <plugin name="limit_store_for_invoice_grid" type="Dulv\SeparateAdminUser\Plugin\Sales\Invoice\LimitStoreGrid" sortOrder="1" />-->
+<!--    </type>-->
+        <type name="Magento\Sales\Model\ResourceModel\Order\Invoice\Collection">
+            <plugin name="limit_store_for_invoice_collection" type="Dulv\SeparateAdminUser\Plugin\Sales\Invoice\LimitStoreCollection" sortOrder="1" />
+        </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Invoice\Email">
+        <plugin name="validate_store_id_for_invoice_email" type="Dulv\SeparateAdminUser\Plugin\Sales\Invoice\ValidateEmail" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Invoice\PrintAction">
+        <plugin name="validate_store_id_for_invoice_printaction" type="Dulv\SeparateAdminUser\Plugin\Sales\Invoice\ValidatePrint" sortOrder="1" />
+    </type>
+    <!-- END SALES INVOICE-->
+    <!-- END MAGENTO SALES -->
+
+    <!-- **************************************************************************************************************** -->
+    <!-- Catalog Rule -->
+    <type name="Magento\CatalogRule\Model\ResourceModel\Grid\Collection">
+        <plugin name="limit_website_id_in_catalog_rule_grid" type="Dulv\SeparateAdminUser\Plugin\CatalogRule\LimitWebsiteCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\CatalogRule\Model\Rule\WebsitesOptionsProvider">
+        <plugin name="limit_website_options_for_catalogrule_form" type="Dulv\SeparateAdminUser\Plugin\CatalogRule\LimitWebsiteOptions" sortOrder="1"/>
+    </type>
+    <!-- **************************************************************************************************************** -->
+    <type name="Magento\Review\Model\ResourceModel\Review\Product\Collection">
+        <plugin name="limit_store_in_review_grid" type="Dulv\SeparateAdminUser\Plugin\Review\LimitStoreInAllReview" sortOrder="1" />
+    </type>
+
+    <!-- **************************************************************************************************************** -->
+    <!-- URL REWRITE -->
+    <type name="\Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite\Edit">
+        <plugin name="urlwrite_validate_edit" type="Dulv\SeparateAdminUser\Plugin\UrlRewrite\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="\Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite\Delete">
+        <plugin name="urlwrite_validate_delete" type="Dulv\SeparateAdminUser\Plugin\UrlRewrite\ValidateDelete" sortOrder="1"/>
+    </type>
+    <type name="\Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite\InlineEdit">
+        <plugin name="urlwrite_validate_inlineedit" type="Dulv\SeparateAdminUser\Plugin\UrlRewrite\ValidateInlineEdit" sortOrder="1"/>
+    </type>
+    <type name="\Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite\MassDelete">
+        <plugin name="urlwrite_validate_massdelete" type="Dulv\SeparateAdminUser\Plugin\UrlRewrite\ValidateMassDelete" sortOrder="1"/>
+    </type>
+    <type name="\Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite\Save">
+        <plugin name="urlwrite_validate_save" type="Dulv\SeparateAdminUser\Plugin\UrlRewrite\ValidateSave" sortOrder="1"/>
+    </type>
+
+
+    <!-- ********************************************************************************************************************* -->
+    <!-- Search Term - Query -->
+    <type name="Magento\Search\Model\ResourceModel\Query\Collection">
+        <plugin name="search_time_limit_by_store" type="Dulv\SeparateAdminUser\Plugin\Search\Query\CollectionLimitStore" sortOrder="1" />
+    </type>
+    <type name="Magento\Search\Ui\Component\Listing\Column\Scope\Options">
+        <plugin name="search_limit_scope_options" type="Dulv\SeparateAdminUser\Plugin\Search\Query\SearchLimitScopeOptions" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Controller\Adminhtml\Term\Edit">
+        <plugin name="search_qquery_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Search\Query\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Controller\Adminhtml\Term\Delete">
+        <plugin name="search_qquery_validate_delete" type="Dulv\SeparateAdminUser\Plugin\Search\Query\ValidateDelete" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Controller\Adminhtml\Term\Save">
+        <plugin name="search_qquery_validate_save" type="Dulv\SeparateAdminUser\Plugin\Search\Query\ValidateSave" sortOrder="1"/>
+    </type>
+    <!-- Synonyms -->
+    <type name="Magento\Search\Controller\Adminhtml\Synonyms\Delete">
+        <plugin name="search_synonyms_validate_delete" type="Dulv\SeparateAdminUser\Plugin\Search\Synonyms\ValidateDelete" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Controller\Adminhtml\Synonyms\Edit">
+        <plugin name="search_synonyms_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Search\Synonyms\ValidateEdit" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Controller\Adminhtml\Synonyms\Save">
+        <plugin name="search_synonyms_validate_save" type="Dulv\SeparateAdminUser\Plugin\Search\Synonyms\ValidateSave" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Controller\Adminhtml\Synonyms\MassDelete">
+        <plugin name="search_synonyms_validate_mass_delete" type="Dulv\SeparateAdminUser\Plugin\Search\Synonyms\ValidateMassDelete" sortOrder="1"/>
+    </type>
+    <type name="Magento\Search\Model\ResourceModel\SynonymGroup\Collection">
+        <plugin name="search_synonym_collection_limit_store" type="Dulv\SeparateAdminUser\Plugin\Search\Synonyms\CollectionLimitStore" sortOrder="1"/>
+    </type>
+
+    <!-- ********************************************************************************************************************* -->
+    <!-- Sitemap -->
+    <type name="Magento\Sitemap\Model\ResourceModel\Sitemap\Collection">
+        <plugin name="sitemap_collection_limit_store" type="Dulv\SeparateAdminUser\Plugin\Sitemap\CollectionLimitStore" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Sitemap\Controller\Adminhtml\Sitemap\Edit">
+        <plugin name="sitemap_validate_edit" type="Dulv\SeparateAdminUser\Plugin\Sitemap\ValidateEdit" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Sitemap\Controller\Adminhtml\Sitemap\Delete">
+        <plugin name="sitemap_validate_delete" type="Dulv\SeparateAdminUser\Plugin\Sitemap\ValidateDelete" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sitemap\Controller\Adminhtml\Sitemap\Save">
+        <plugin name="sitemap_validate_save" type="Dulv\SeparateAdminUser\Plugin\Sitemap\ValidateSave" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sitemap\Controller\Adminhtml\Sitemap\Generate">
+        <plugin name="sitemap_validate_generate" type="Dulv\SeparateAdminUser\Plugin\Sitemap\ValidateGenerate" sortOrder="1"/>
+    </type>
+
+    <!-- ********************************************************************************************************************* -->
+    <!-- Newsletter -->
+    <type name="Magento\Newsletter\Model\ResourceModel\Subscriber\Collection">
+        <plugin name="newsletter_collection_limit_store" type="Dulv\SeparateAdminUser\Plugin\Newsletter\CollectionLimitStore" sortOrder="1" />
+    </type>
+    <type name="Magento\Newsletter\Controller\Adminhtml\Subscriber\MassDelete">
+        <plugin name="newsletter_validate_massdelete" type="Dulv\SeparateAdminUser\Plugin\Newsletter\ValidateMassDelete" sortOrder="1"/>
+    </type>
+    <type name="Magento\Newsletter\Controller\Adminhtml\Subscriber\MassDelete">
+        <plugin name="newsletter_validate_massunsubscribe" type="Dulv\SeparateAdminUser\Plugin\Newsletter\ValidateMassUnsubscribe" sortOrder="1" />
+    </type>
+
+    <!-- ********************************************************************************************************************* -->
+    <!-- Report -->
+    <type name="Magento\Reports\Model\ResourceModel\Quote\Item\Collection">
+        <plugin name="quote_item_limit_store" type="Dulv\SeparateAdminUser\Plugin\Sales\Quote\CollectionItemLimitStore" sortOrder="1" />
+    </type>
+    <type name="Magento\Reports\Model\ResourceModel\Quote\Collection">
+        <plugin name="quote_limit_store" type="Dulv\SeparateAdminUser\Plugin\Sales\Quote\CollectionLimitStore" sortOrder="1" />
+    </type>
+    <type name="Magento\Newsletter\Model\ResourceModel\Grid\Collection">
+        <plugin name="newsletter_grid_collection" type="Dulv\SeparateAdminUser\Plugin\Newsletter\GridCollection"  sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Invoiced\Collection\Invoiced">
+        <plugin name="report_invoice_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\ReportInvoicedCollectionLimitStore" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Invoiced\Collection\Order">
+        <plugin name="report_invoice_collection_order" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\InvoicedCollectionOrder" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Order\Updatedat\Collection">
+        <plugin name="report_sales_order_update_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\OrderUpdateatCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Order\Collection">
+        <plugin name="report_order_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\OrderCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Tax\Model\ResourceModel\Report\Updatedat\Collection">
+        <plugin name="report_updatedat_collection" type="Dulv\SeparateAdminUser\Plugin\Report\ReportUpdatedatCollection"  sortOrder="1" />
+    </type>
+    <type name="Magento\Tax\Model\ResourceModel\Report\Collection">
+        <plugin name="report_collection" type="Dulv\SeparateAdminUser\Plugin\Report\ReportCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Shipping\Collection\Shipment">
+        <plugin name="report_shipping_collection_shipment" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\ShipmentCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Shipping\Collection\Order">
+        <plugin name="report_shipping_collection_order" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\ShippingCollectionOrder" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Refunded\Collection\Refunded">
+        <plugin name="report_refunded_collection_refunded" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\RefundedCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Refunded\Collection\Order">
+        <plugin name="report_refunded_collection_order" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\RefundedCollectionOrder" sortOrder="1" />
+    </type>
+    <type name="Magento\SalesRule\Model\ResourceModel\Report\Updatedat\Collection">
+        <plugin name="report_salesrule_updatedat_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\CouponUpdatedAtCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\SalesRule\Model\ResourceModel\Report\Collection">
+        <plugin name="report_salesrule_report_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\CouponReportCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Paypal\Model\ResourceModel\Report\Settlement\Row\Collection">
+        <plugin name="paypal_report_settlement_row_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Sales\PaypalSettlementCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Reports\Model\ResourceModel\Review\Product\Collection">
+        <plugin name="review_product_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Review\ReviewProductCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Reports\Model\ResourceModel\Customer\Totals\Collection\Initial">
+        <plugin name="customer_totals_collection_initial" type="Dulv\SeparateAdminUser\Plugin\Report\Customer\CollectionInitial" sortOrder="1"/>
+    </type>
+    <type name="Magento\Reports\Model\ResourceModel\Customer\Orders\Collection\Initial">
+        <plugin name="customer_orders_collection_initial" type="Dulv\SeparateAdminUser\Plugin\Report\Customer\CollectionOrderInitial" sortOrder="1"/>
+    </type>
+    <type name="Magento\Reports\Model\ResourceModel\Accounts\Collection\Initial">
+        <plugin name="accounts_collection_initial" type="Dulv\SeparateAdminUser\Plugin\Report\Customer\AccounCollectiontInitial" sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Report\Bestsellers\Collection">
+        <plugin name="report_bestseller_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Product\BestsellerCollection" sortOrder="1"/>
+    </type>
+    <type name="Magento\Reports\Controller\Adminhtml\Report\Product\Lowstock">
+        <plugin name="report_product_lowstock_controller" type="Dulv\SeparateAdminUser\Plugin\Report\Product\ValidLowStock" sortOrder="1"/>
+    </type>
+    <type name="Magento\Reports\Block\Adminhtml\Product\Lowstock\Grid">
+        <plugin name="product_lowstock_grid" type="Dulv\SeparateAdminUser\Plugin\Report\Product\LowstockGrid" sortOrder="1" />
+    </type>
+    <type name="Magento\Reports\Model\ResourceModel\Product\Sold\Collection">
+        <plugin name="product_sold_collection" type="Dulv\SeparateAdminUser\Plugin\Report\Product\ProductSoldCollection" sortOrder="1" />
+    </type>
+    <type name="Magento\Reports\Controller\Adminhtml\Report\Product\Downloads">
+        <plugin name="report_product_downloads" type="Dulv\SeparateAdminUser\Plugin\Report\Product\ValidDownloads" sortOrder="1"/>
+    </type>
+</config>

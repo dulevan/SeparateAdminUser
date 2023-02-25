@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <dataSource name="cms_page_listing_data_source" component="Magento_Ui/js/grid/provider">
+
+        <dataProvider class="Magento\Cms\Ui\Component\DataProvider" name="cms_page_listing_data_source">
+            <settings>
+                <data>
+                    <config>
+                        <filterUrlParams>
+                            <store_id>0</store_id>
+                        </filterUrlParams>
+                    </config>
+                </data>
+            </settings>
+        </dataProvider>
+
+    </dataSource>
+
+</listing>

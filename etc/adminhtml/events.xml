@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!--
+    <event name="core_collection_abstract_load_before">
+        <observer name="apply_website_store_into_cms_collection" instance="Dulv\SeparateAdminUser\Observer\Adminhtml\CmsPageCollectionLoadBefore"/>
+    </event>
+<
+    <event name="controller_action_predispatch_adminhtml_user_new">
+        <observer name="check_permission_to_create_user" instance="Dulv\SeparateAdminUser\Observer\Adminhtml\UserNew" />
+    </event>
+    -->
+
+    <event name="controller_action_catalog_product_save_entity_after">
+        <observer name="store_product_id_before_run_plugin_aftersave" instance="Dulv\SeparateAdminUser\Observer\Adminhtml\Product\GetProductId"/>
+    </event>
+
+</config>
