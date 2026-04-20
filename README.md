@@ -1,4 +1,4 @@
-This module splites admin panel into 4 scopes. 
+This module splites admin panel into 4 following scopes. 
 - Supper Admin: Default scope of Magento 2
 - Website Scope: Scope belongs to website and all of its stores and store views
 - Store Scope: scope of a store and all of its store views
